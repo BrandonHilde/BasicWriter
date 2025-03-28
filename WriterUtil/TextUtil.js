@@ -18,10 +18,12 @@ function RetrieveText(docfragment)
     return div.innerHTML.trim();
 }
 
-function RemoveTextNode(rawhtml, node)
+function RemoveTextNode(rawhtml, type)
 {
-    rawhtml = rawhtml.replaceAll('<' + node + '>', "");
-    rawhtml = rawhtml.replaceAll('</' + node + '>', "");
+    console.log(rawhtml);
+    console.log(type);
+    rawhtml = rawhtml.replaceAll('<' + type + '>', "");
+    rawhtml = rawhtml.replaceAll('</' + type + '>', "");
 
     return rawhtml;
 }
@@ -139,10 +141,8 @@ function SetEditorText(text)
 function GetTextSections()
 {
     const startend = GetRelativePosition();
-    console.log(startend);
 
     const editText = GetEditorText().toString();
-    console.log(editText);
 
     var preText = editText.substring(0, startend.start);
     var midText = editText.substring(startend.start, startend.end);
@@ -161,12 +161,18 @@ function RemoveType(type)
 {
     var sect = GetTextSections();
 
-    SetEditorText(sect.pre + sect.mid + sect.end);
+    var txt = sect.pre + sect.mid + sect.end;
+
+    txt = RemoveTextNode(txt, type);
+
+    SetEditorText(txt);
 }
 
 function AddType(type)
 {
     var sect = GetTextSections();
+
+    console.log(sect);
 
     var mid = sect.mid;
 
@@ -181,6 +187,8 @@ function AddType(type)
     + mid
     + buildType(type, true) 
     + sect.end;
+
+    console.log(nText);
   
    // var simp = SimplifyTextFormat(nText, type);
     SetEditorText(nText);
@@ -199,7 +207,9 @@ function isInsideType(type)
     var count = 0;
 
     count += numberOfType(type, sect.pre);
+    console.log(count);
     count += numberOfType(type, sect.mid);
+    console.log(count);
 
     return count > 0;
 
