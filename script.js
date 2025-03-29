@@ -32,11 +32,7 @@ document.getElementById('checkButton').addEventListener('click', function() {
 
 function ToggleType(type)
 {
-   if(isInsideType(type))
-   {
-      RemoveType(type);
-   }
-   else{
-      AddType(type);
-   }
+   var sel = isInsideType(type);
+
+   AddType(type, sel);
 }

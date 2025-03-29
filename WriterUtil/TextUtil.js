@@ -7,6 +7,15 @@ const SupportedTextTypes = {
     Italics: "em"
 };
 
+const SelectType = {
+    First: "f",
+    Last: "l",
+    Both: "b",
+    None: "n",
+    Enclosed: "e",
+    Matches: "m"
+}
+
 function RetrieveText(docfragment)
 {
     var div = document.createElement('div');
@@ -138,6 +147,29 @@ function SetEditorText(text)
     editor.innerHTML = text;
 }
 
+function RemoveCuts(text, next)
+{
+    
+    var inx = text.indexOf("<");
+    var inc = text.indexOf(">");
+
+    var nnx = next.indexOf(">");
+
+    if(inx != inc && nnx > 0)
+    {
+        var pre = text.substring(0, inx);
+        var sub = text.substring(inx);
+
+        text = pre;
+        next = sub + next;        
+    }
+
+    return {
+        txt: text,
+        nxt: next
+    }
+}
+
 function GetTextSections()
 {
     const startend = GetRelativePosition();
@@ -147,6 +179,8 @@ function GetTextSections()
     var preText = editText.substring(0, startend.start);
     var midText = editText.substring(startend.start, startend.end);
     var endText = editText.substring(startend.end);
+
+    
 
     var value = {
         pre: preText,
@@ -168,7 +202,7 @@ function RemoveType(type)
     SetEditorText(txt);
 }
 
-function AddType(type)
+function AddType(type, selectTyp)
 {
     var sect = GetTextSections();
 
@@ -179,19 +213,97 @@ function AddType(type)
     var tyo = buildType(type, false);
     var tyc = buildType(type, true);
 
-    mid = mid.replaceAll(tyo, "");
-    mid = mid.replaceAll(tyc, "");
+    console.log(selectTyp);
 
-    var nText = sect.pre 
-    + buildType(type, false) 
-    + mid
-    + buildType(type, true) 
-    + sect.end;
+    if(selectTyp == SelectType.None)
+    {
+        mid = mid.replaceAll(tyo, "");
+        mid = mid.replaceAll(tyc, "");
+
+        var nText = sect.pre 
+        + buildType(type, false) 
+        + mid
+        + buildType(type, true) 
+        + sect.end;
+    }
+    else if(selectTyp == SelectType.First)
+    {
+        //remove the closing type
+        mid = mid.replaceAll(tyc, "");
+
+        var nText = sect.pre 
+        + mid
+        + buildType(type, true) 
+        + sect.end;
+    }
+    else if(selectTyp == SelectType.Both)
+    {
+        mid = mid.replaceAll(tyo, "");
+        mid = mid.replaceAll(tyc, "");
+
+        console.log("both: " + mid);
+
+        var nText = sect.pre 
+        + buildType(type, true) 
+        + mid
+        + buildType(type, false) 
+        + sect.end;
+    }
+    else if(selectTyp == SelectType.Last)
+    {
+        mid = mid.replaceAll(tyo, "");
+
+        var nText = sect.pre 
+        + buildType(type, false) 
+        + mid
+        + sect.end;
+    }
+    else if(selectTyp == SelectType.Enclosed)
+    {
+        mid = mid.replaceAll(tyo, "");
+        mid = mid.replaceAll(tyc, "");
+
+        var nText = sect.pre 
+        + mid
+        + buildType(type, true) 
+        + sect.end;
+    }
+    else
+    {
+        sect.pre = sect.pre.replaceAll(tyo, "");
+        mid = mid.replaceAll(tyc, "");
+
+        var nText = sect.pre 
+        + mid
+        + sect.end;
+    }
 
     console.log(nText);
+
+    nText = RemoveDuplicates(nText, type);
   
    // var simp = SimplifyTextFormat(nText, type);
     SetEditorText(nText);
+}
+
+function RemoveDuplicates(text, type)
+{
+    var val = text;
+
+    var tyo = buildType(type, false);
+    var tyc = buildType(type, true);
+
+    if(val.includes(tyo + tyo))
+    {
+        val = val.replaceAll(tyo + tyo, "");
+    }
+
+    if(val.includes(tyc + tyc))
+    {
+        val = val.replaceAll(tyo + tyo, "");
+    }
+
+    return val;
 }
 
 function buildType(type, isClose)
@@ -200,18 +312,49 @@ function buildType(type, isClose)
     return '<' + type + '>';
 }
 
+function ValueIndependentLength(value, text)
+{
+    var val = text.replaceAll(value, "");
+
+    return val.length;
+}
+
 function isInsideType(type)
 {
     var sect = GetTextSections();
 
-    var count = 0;
+    var ctp = numberOfType(type, sect.pre);
 
-    count += numberOfType(type, sect.pre);
-    console.log(count);
-    count += numberOfType(type, sect.mid);
-    console.log(count);
+    var ctm = numberOfType(type, sect.mid);
 
-    return count > 0;
+    var cte = numberOfType(type, sect.end);
+
+    console.log(ctp, ctm, cte);
+
+    var val = SelectType.None;
+
+    if(ctp > 0 && cte < 0 ) {
+        val = SelectType.Both;
+    }
+    else if(ctp > 0 && ctm < 0)
+    {
+        val = SelectType.Enclosed;
+    }
+    else{
+        if(ctp > 0) val = SelectType.First;
+        if(ctm > 0) val = SelectType.Last;
+    }
+
+    if(sect.pre.endsWith(buildType(type, false)))
+    {
+        if(sect.mid.endsWith(buildType(type, true)))
+        {
+            val = SelectType.Matches;
+        }
+    }
+
+    console.log(val);
+    return val;
 
 }
 
