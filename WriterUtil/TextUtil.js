@@ -1,5 +1,16 @@
 const editor = document.getElementById("editor");
 
+editor.addEventListener("keydown", function(event){
+
+    if(event.key == "Tab")
+    {
+        event.preventDefault();
+        event.stopPropagation();
+        console.log(event.key);
+        //override tab
+    }
+});
+
 const SupportedTextTypes = {
     Bold: "strong",
     Underline: "u",
@@ -29,8 +40,6 @@ function RetrieveText(docfragment)
 
 function RemoveTextNode(rawhtml, type)
 {
-    console.log(rawhtml);
-    console.log(type);
     rawhtml = rawhtml.replaceAll('<' + type + '>', "");
     rawhtml = rawhtml.replaceAll('</' + type + '>', "");
 
