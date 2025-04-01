@@ -30,6 +30,12 @@ document.getElementById('clearButton').addEventListener('click', function() {
 
 });
 
+document.getElementById('lineButton').addEventListener('click', function() {
+
+   InsertLine();
+
+});
+
 function ToggleType(type)
 {
    var sel = isInsideType(type);

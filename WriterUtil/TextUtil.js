@@ -111,7 +111,13 @@ function AssignRange(element)
 
     // range.setStart(element.lastChild, 0);
     // range.setEnd(element.lastChild, 0);
-    range.selectNodeContents(element.lastChild);
+    if(element)
+    {
+        if(element.lastChild)
+            range.selectNodeContents(element.lastChild);
+        else range.selectNodeContents(element);
+    }
+
     selection.removeAllRanges();
     selection.addRange(range);
 
@@ -147,17 +153,23 @@ function SimplifyTextFormat(text, type)
 
 }*/
 
+function GetBasicPossition()
+{
+    return {start: -1, end: -1};
+}
+
 function GetRelativePosition()
 {
     const selection = window.getSelection();
     
-    if (selection.rangeCount > 0) {
+    if (selection.rangeCount >= 0) {
       const range = selection.getRangeAt(0);
       
       // Make sure the selection is within our editor
       if (editor.contains(range.startContainer)) {
         const startOffset = getAbsoluteOffset(editor, range.startContainer, range.startOffset);
         const endOffset = getAbsoluteOffset(editor, range.endContainer, range.endOffset);
+        //console.log(startOffset, endOffset);
         return {start: startOffset, end: endOffset};
       }
     }
@@ -232,6 +244,11 @@ function ClearFormating()
     SetEditorText(nText);
 }
 
+function InsertLine()
+{
+    InsertRawHTML('<hr>');
+}
+
 function ClearFromText(text)
 {
     var ntxt = "";
@@ -265,12 +282,12 @@ function ClearFromText(text)
 
 function RemoveCuts(text, next)
 {
-    var inx = text.indexOf("<");
-    var inc = text.indexOf(">");
+    var inx = text.lastIndexOf("<");
+    var inc = text.lastIndexOf(">");
 
     var nnx = next.indexOf(">");
 
-    if(inx != inc && nnx > 0)
+    if(inx > inc && nnx > 0)
     {
         var pre = text.substring(0, inx);
         var sub = text.substring(inx);
@@ -289,15 +306,15 @@ function GetTextSections()
 {
     const startend = GetRelativePosition();
 
+    console.log(startend);
+
     const editText = GetEditorText().toString();
+
+    console.log(editText);
 
     var preText = editText.substring(0, startend.start);
     var midText = editText.substring(startend.start, startend.end);
     var endText = editText.substring(startend.end);
-
-    console.log("pre: " + preText);
-    console.log("mid: " + midText);
-    console.log("end: " + endText);
 
     if(midText == '')
     {
@@ -349,14 +366,10 @@ function AddType(type, selectTyp)
 {
     var sect = GetTextSections();
 
-    console.log(sect);
-
     var mid = sect.mid;
 
     var tyo = buildType(type, false);
     var tyc = buildType(type, true);
-
-    console.log(selectTyp);
 
     if(selectTyp == SelectType.None)
     {
@@ -423,9 +436,6 @@ function AddType(type, selectTyp)
 
     nText = RemoveDuplicates(nText, type);
 
-    console.log(nText);
-  
-   // var simp = SimplifyTextFormat(nText, type);
     SetEditorText(nText);
 }
 
@@ -435,6 +445,11 @@ function InsertRawHTML(rawHtml)
 
     if(txt.mid == '')
     {
+        var nText = txt.pre + rawHtml + txt.end;
+
+        SetEditorText(nText);
+    }
+    else{
         var nText = txt.pre + rawHtml + txt.end;
 
         SetEditorText(nText);
@@ -508,7 +523,6 @@ function isInsideType(type)
         }
     }
 
-    console.log(val);
     return val;
 
 }
