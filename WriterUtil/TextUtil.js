@@ -1,5 +1,23 @@
 const editor = document.getElementById("editor");
 
+var paraCount = 0;
+
+
+editor.addEventListener("focus", function() {
+
+    if(editor.innerHTML.trim() == "")
+    {
+        InsertRawHTML('<p id="initP"></p>');
+    }
+});
+
+// editor.addEventListener("input", function(event){
+
+//     event.preventDefault();
+//     event.stopPropagation();
+//     console.log(event.key);
+// });
+
 editor.addEventListener("keydown", function(event){
 
     if(event.key == "Tab")
@@ -9,9 +27,40 @@ editor.addEventListener("keydown", function(event){
         console.log(event.key);
         //override tab
     }
+    else if(event.key == "Enter")
+    {
+        event.preventDefault();
+        //event.stopPropagation();
+
+        var pel = 'p_' + (paraCount++).toString();
+
+        InsertRawHTML('</p><p id="' + pel + '"><br>');
+
+        var element = document.getElementById(pel);
+
+        AssignRange(element);
+
+    }else if(event.key == "Alt"){
+        event.preventDefault();
+        event.stopPropagation();
+        test();
+    }
 });
 
+function test()
+{
+    if(editor.textContent == "")
+        {
+            editor.focus();
+            var element = document.getElementById('initP');
+
+            AssignRange(element);
+        }
+}
+
 const SupportedTextTypes = {
+    Title: "h1",
+    Header: "h2",
     Bold: "strong",
     Underline: "u",
     StrikeThrough: "s",
@@ -53,6 +102,20 @@ function SimplifyFormat(type)
     raw = raw.replaceAll('</' + type + '><'+ type + '>', "");
 
     editor.innerHTML = raw;
+}
+
+function AssignRange(element)
+{
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+
+    // range.setStart(element.lastChild, 0);
+    // range.setEnd(element.lastChild, 0);
+    range.selectNodeContents(element.lastChild);
+    selection.removeAllRanges();
+    selection.addRange(range);
+
+    //range.deleteContents();
 }
 
 /*
@@ -156,9 +219,52 @@ function SetEditorText(text)
     editor.innerHTML = text;
 }
 
+function ClearFormating()
+{
+    var sect = GetTextSections();
+
+    var preTxt = ClearFromText(sect.pre);
+    var midTxt = ClearFromText(sect.mid);
+    var endTxt = ClearFromText(sect.end);
+
+    var nText = preTxt + midTxt + endTxt;
+
+    SetEditorText(nText);
+}
+
+function ClearFromText(text)
+{
+    var ntxt = "";
+
+    var inside = false;
+
+    for(var v = 0; v < text.length; v++)
+    {
+        if(text[v] == '<')
+        {
+            inside = true;
+        }
+        else
+        {
+            if(text[v] == '>')
+            {
+                inside = false;
+            }
+            else
+            {
+                if(!inside)
+                {
+                    ntxt += text[v];
+                }
+            }
+        }
+    }
+
+    return ntxt;
+}
+
 function RemoveCuts(text, next)
 {
-    
     var inx = text.indexOf("<");
     var inc = text.indexOf(">");
 
@@ -189,13 +295,41 @@ function GetTextSections()
     var midText = editText.substring(startend.start, startend.end);
     var endText = editText.substring(startend.end);
 
-    
+    console.log("pre: " + preText);
+    console.log("mid: " + midText);
+    console.log("end: " + endText);
+
+    if(midText == '')
+    {
+        var procPre = RemoveCuts(preText, endText);
+
+        preText = procPre.txt;
+        endText = procPre.nxt;
+    }
+    else
+    {
+        var procPre = RemoveCuts(preText, midText);
+
+        console.log(procPre);
+
+        preText = procPre.txt;
+        midText = procPre.nxt;
+
+        var procMid = RemoveCuts(midText, endText);
+
+        console.log(procMid);
+
+        midText = procMid.txt;
+        endText = procMid.nxt;
+    }
 
     var value = {
         pre: preText,
         mid: midText,
         end: endText
     };
+
+    console.log(value);
 
     return value;
 }
@@ -287,12 +421,24 @@ function AddType(type, selectTyp)
         + sect.end;
     }
 
-    console.log(nText);
-
     nText = RemoveDuplicates(nText, type);
+
+    console.log(nText);
   
    // var simp = SimplifyTextFormat(nText, type);
     SetEditorText(nText);
+}
+
+function InsertRawHTML(rawHtml)
+{
+    var txt = GetTextSections();
+
+    if(txt.mid == '')
+    {
+        var nText = txt.pre + rawHtml + txt.end;
+
+        SetEditorText(nText);
+    }
 }
 
 function RemoveDuplicates(text, type)

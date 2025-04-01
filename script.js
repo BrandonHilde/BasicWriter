@@ -1,4 +1,16 @@
 
+document.getElementById('titleButton').addEventListener('click', function() {
+
+   ToggleType(SupportedTextTypes.Title);
+
+});
+
+document.getElementById('headerButton').addEventListener('click', function() {
+
+   ToggleType(SupportedTextTypes.Header);
+
+});
+
 document.getElementById('boldButton').addEventListener('click', function() {
 
    ToggleType(SupportedTextTypes.Bold);
@@ -26,7 +38,7 @@ document.getElementById('italicsButton').addEventListener('click', function() {
 
 document.getElementById('checkButton').addEventListener('click', function() {
 
-   console.log(isInsideType('strong'));
+   ClearFormating();
 
 });
 
