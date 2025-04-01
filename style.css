@@ -3,22 +3,29 @@ body {
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
-}
-
-h1 {
-    color: #333;
+    background-color: #d9b997;
+    color: #2e2215;
 }
 
 #editor {
-    border: 1px solid #ccc;
+    border: 1px dashed #d9b997;
     min-height: 200px;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
 }
 
+#editor:hover {
+    border: 1px dashed #2e2215;
+}
+#editor:focus {
+    border: 1px dashed #2e2215;
+    outline: none;
+}
+
+
 button {
-    background-color: #4CAF50;
+    background-color: #2e2215;
     color: white;
     border: none;
     padding: 8px 16px;
