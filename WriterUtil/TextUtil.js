@@ -1,6 +1,52 @@
 const editor = document.getElementById("editor");
 
 var paraCount = 0;
+var selectedParagraph = null;
+
+const SupportedTextTypes = {
+    Title: "h1",
+    Header: "h2",
+    Bold: "strong",
+    Underline: "u",
+    StrikeThrough: "s",
+    Italics: "em"
+};
+
+const SelectType = {
+    First: "f",
+    Last: "l",
+    Both: "b",
+    None: "n",
+    Enclosed: "e",
+    Matches: "m"
+}
+
+const SupportedFont = [
+    "Bona Nova",
+    "Medula One",
+    "Cutive Mono",
+    "Lexend"
+];
+
+const FontClassName = [
+    "BonaNova",
+    "MedulaOne",
+    "CutiveMono",
+    "Lexend"
+];
+
+function GetFont(name)
+{
+    for(var v = 0; v < SupportedFont.length; v++)
+    {
+        if(SupportedFont[v] == name)
+        {
+            return FontClassName[v];
+        }
+    }
+
+    return FontClassName[0];
+}
 
 
 editor.addEventListener("focus", function() {
@@ -9,7 +55,20 @@ editor.addEventListener("focus", function() {
     {
         InsertRawHTML('<p id="initP"></p>');
     }
+
+    console.log(document.activeElement);
 });
+
+editor.addEventListener('click', function(event) {
+
+    var ele = document.elementFromPoint(event.clientX, event.clientY);
+
+    if(ele.tagName == "P")
+    {
+        selectedParagraph = ele;
+    }
+
+  });
 
 // editor.addEventListener("input", function(event){
 
@@ -40,41 +99,8 @@ editor.addEventListener("keydown", function(event){
 
         AssignRange(element);
 
-    }else if(event.key == "Alt"){
-        event.preventDefault();
-        event.stopPropagation();
-        test();
     }
 });
-
-function test()
-{
-    if(editor.textContent == "")
-        {
-            editor.focus();
-            var element = document.getElementById('initP');
-
-            AssignRange(element);
-        }
-}
-
-const SupportedTextTypes = {
-    Title: "h1",
-    Header: "h2",
-    Bold: "strong",
-    Underline: "u",
-    StrikeThrough: "s",
-    Italics: "em"
-};
-
-const SelectType = {
-    First: "f",
-    Last: "l",
-    Both: "b",
-    None: "n",
-    Enclosed: "e",
-    Matches: "m"
-}
 
 function RetrieveText(docfragment)
 {
@@ -124,40 +150,6 @@ function AssignRange(element)
     //range.deleteContents();
 }
 
-/*
-function SimplifyTextFormat(text, type)
-{
-    var tyo = buildType(type, false);
-    var tyc = buildType(type, true);
-
-    const count = text.split(tyo).length - 1;
-
-    if(count > 1)
-    {
-
-        var open = text.indexOf(tyo);
-        var clos = text.lastIndexOf(tyc);
-
-        var pre = text.substring(0, open);
-        var rm = text.substring(open, clos)
-
-        rm = rm.replaceAll(tyo, "");
-        rm = rm.replaceAll(tyc, "");
-
-        var pst = text.substring(clos);
-
-        return pre + rm + pst;
-    }
-
-    return text;
-
-}*/
-
-function GetBasicPossition()
-{
-    return {start: -1, end: -1};
-}
-
 function GetRelativePosition()
 {
     const selection = window.getSelection();
@@ -183,9 +175,6 @@ function getAbsoluteOffset(editor, container, offsetInContainer)
     const range = document.createRange();
     range.setStart(editor, 0);
     range.setEnd(container, offsetInContainer);
-
-    // Get the text content of this range, which represents all text before our position
-   // const textBefore = range.toString().trim();
 
    var doc = range.cloneContents();
 

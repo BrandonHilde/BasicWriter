@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Medula One', Arial, sans-serif;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
@@ -23,8 +23,30 @@ body {
     outline: none;
 }
 
+select::-webkit-scrollbar {
+    display: none;
+  }
+
+select{
+    -webkit-appearance: none;
+  overflow: hidden;
+ 
+    background-color: #2e2215;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    width: 180px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+}
 
 button {
+    font-family: 'Medula One';
     background-color: #2e2215;
     color: white;
     border: none;
@@ -32,7 +54,7 @@ button {
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px;
+    font-size: 24px;
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
@@ -48,4 +70,56 @@ button:hover {
 
 p {
     text-indent: 34px;
+    margin: 0 0 10px 0;
 }
+
+/* fonts */
+@font-face {
+    font-family: 'Bona Nova';
+    src: url('font/Bona_Nova/BonaNova-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bona Nova';
+    src: url('font/Bona_Nova/BonaNova-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Bona Nova';
+    src: url('font/Bona_Nova/BonaNova-Italic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+}
+
+@font-face {
+    font-family: 'Medula One';
+    src: url('font/Medula_One/MedulaOne-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+.MedulaOne{
+    font-family: 'Medula One';
+}
+
+.BonaNova{
+    font-family: 'Bona Nova';
+}
+
+.CutiveMono{
+    font-family: 'Cutive Mono';
+}
+
+.Lexend{
+    font-family: 'Lexend';
+}
+/*
+p {
+    border-radius: 4px;
+    border: 1px dashed black;
+}*/

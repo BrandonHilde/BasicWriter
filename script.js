@@ -23,18 +23,27 @@ document.getElementById('italicsButton').addEventListener('click', function() {
 
 });
 
-
 document.getElementById('clearButton').addEventListener('click', function() {
 
    ClearFormating();
 
 });
 
-document.getElementById('lineButton').addEventListener('click', function() {
+const fontSelect = document.getElementById('setFontSelect');
 
-   InsertLine();
+// fontSelect.addEventListener("click", function(){
+//    console.log(document.activeElement);
+// });
+
+fontSelect.addEventListener('change', function() {
+
+   if(selectedParagraph)
+   {
+      selectedParagraph.className = GetFont(fontSelect.value);
+   }
 
 });
+
 
 function ToggleType(type)
 {
