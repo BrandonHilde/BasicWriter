@@ -224,11 +224,9 @@ function ClearFormating()
 {
     var sect = GetTextSections();
 
-    var preTxt = ClearFromText(sect.pre);
-    var midTxt = ClearFromText(sect.mid);
-    var endTxt = ClearFromText(sect.end);
+    var mid = ClearFromText(sect.mid);
 
-    var nText = preTxt + midTxt + endTxt;
+    var nText = sect.pre + mid + sect.end;
 
     SetEditorText(nText);
 }
@@ -244,13 +242,15 @@ function ClearFromText(text)
 
     var inside = false;
 
-    for(var v = 0; v < text.length; v++)
+    for(var v = 0; v < text.length - 1; v++)
     {
-        if(text[v] == '<')
+        if(text[v] == '<' && text[v + 1] != 'p')
         {
             inside = true;
+            console.log(text[v + 1]);
         }
-        else
+        
+        if(text[v] != '<')
         {
             if(text[v] == '>')
             {
