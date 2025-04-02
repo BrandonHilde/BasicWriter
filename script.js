@@ -1,3 +1,8 @@
+const menu = document.getElementById('menu');
+const fontSelect = document.getElementById('setFontSelect');
+const defaultFont = document.getElementById('setDefaultFont');
+const defaultSize = document.getElementById('setDefaultSize');
+
 
 document.getElementById('boldButton').addEventListener('click', function() {
 
@@ -29,11 +34,11 @@ document.getElementById('clearButton').addEventListener('click', function() {
 
 });
 
-const fontSelect = document.getElementById('setFontSelect');
+document.getElementById('setupButton').addEventListener('click', function() {
 
-// fontSelect.addEventListener("click", function(){
-//    console.log(document.activeElement);
-// });
+   ToggleMenu();
+
+});
 
 fontSelect.addEventListener('change', function() {
 
@@ -44,10 +49,37 @@ fontSelect.addEventListener('change', function() {
 
 });
 
+defaultFont.addEventListener('change', function() {
+
+
+  editor.style.fontFamily = defaultFont.value;
+
+});
+
+
+defaultSize.addEventListener('change', function() {
+
+   editor.style.fontSize = defaultSize.value;
+
+});
+
+
 
 function ToggleType(type)
 {
    var sel = isInsideType(type);
 
    AddType(type, sel);
+}
+
+function ToggleMenu()
+{
+   if(menu.style.display == "block")
+   {
+      menu.style.display = "none";
+   }
+   else
+   {
+      menu.style.display = "block";
+   }
 }

@@ -1,6 +1,5 @@
 body {
     font-family: 'Medula One', Arial, sans-serif;
-    max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: #d9b997;
@@ -8,8 +7,9 @@ body {
 }
 
 #editor {
-    border: 1px dashed #d9b997;
+    border: 1px dashed #aa845b;
     min-height: 200px;
+    max-width: 587px;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 4px;
@@ -23,14 +23,23 @@ body {
     outline: none;
 }
 
+.Menu {
+    position: absolute;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px dashed #2e2215;
+    background-color: #ffca91;
+}
+
 select::-webkit-scrollbar {
     display: none;
   }
 
 select{
     -webkit-appearance: none;
-  overflow: hidden;
- 
+    overflow: hidden;
+    vertical-align: top;
+    height: 100%;
     background-color: #2e2215;
     color: white;
     border: none;
@@ -58,6 +67,7 @@ button {
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
+    height: 100%;
 }
 
 button:hover {
@@ -66,6 +76,7 @@ button:hover {
 
 .toolbar {
     margin-bottom: 10px;
+    height: 42px;
 }
 
 p {

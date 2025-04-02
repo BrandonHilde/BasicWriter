@@ -7,6 +7,7 @@
     <link href="style.css" rel="stylesheet"/>
 </head>
 <body>
+    <div style="margin: auto; width: 630px;">
     <h1>Basic Writer</h1>
     
     <div class="toolbar">
@@ -16,6 +17,7 @@
         <button id="italicsButton"><em>I</em></button>
         <button id="clearButton">Clear</button>
         <button id="lineButton">Line</button>
+        <button id="setupButton">Set Defaults</button>
         <select id="setFontSelect">
             <option class="BonaNova">Bona Nova</option>
             <option class="MedulaOne">Medula One</option>
@@ -23,10 +25,33 @@
             <option class="Lexend">Lexend</option>
         </select>
     </div>
+
+    <div id="menu" class="Menu" style="display: none;">
+        <select id="setDefaultFont">
+            <option class="BonaNova">Bona Nova</option>
+            <option class="MedulaOne">Medula One</option>
+            <option class="CutiveMono">Cutive Mono</option>
+            <option class="Lexend">Lexend</option>
+        </select>
+
+        <select id="setDefaultSize">
+            <option>11pt</option>
+            <option>12pt</option>
+            <option>14pt</option>
+            <option>16pt</option>
+        </select>
+        <svg onclick="ToggleMenu();" style="float:right; cursor:pointer;" width="40" height="40">
+            <g>
+                <path d="M7 7L 33 33M33 7L7 33" style="fill:none;stroke:rgb(0, 0, 0);stroke-width:5"></path>
+            </g>
+        </svg>
+    </div>
+
     
     <div id="editor" contenteditable="true">
         <p><br></p>
     </div>
+</div>
 </body>
 <script src="WriterUtil/TextUtil.js"></script>
 <script src="script.js"></script>
