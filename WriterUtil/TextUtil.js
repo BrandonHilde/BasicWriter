@@ -89,7 +89,6 @@ editor.addEventListener("keydown", function(event){
     else if(event.key == "Enter")
     {
         event.preventDefault();
-        //event.stopPropagation();
 
         var pel = 'p_' + (paraCount++).toString();
 
