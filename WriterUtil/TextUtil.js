@@ -35,19 +35,6 @@ const FontClassName = [
     "Lexend"
 ];
 
-function GetFont(name)
-{
-    for(var v = 0; v < SupportedFont.length; v++)
-    {
-        if(SupportedFont[v] == name)
-        {
-            return FontClassName[v];
-        }
-    }
-
-    return FontClassName[0];
-}
-
 
 editor.addEventListener("focus", function() {
 
@@ -70,12 +57,20 @@ editor.addEventListener('click', function(event) {
 
   });
 
-// editor.addEventListener("input", function(event){
+editor.addEventListener("paste", function(event){
 
-//     event.preventDefault();
-//     event.stopPropagation();
-//     console.log(event.key);
-// });
+    event.preventDefault();
+    event.stopPropagation();
+
+    var text = (event.originalEvent || event).clipboardData.getData('text/plain');
+
+    var sect = GetTextSections();
+
+    // make sure the selection is inside a paragraph
+    sect = MoveIntoParagraph(sect);
+
+    InsertRawHTML(text, sect);
+});
 
 editor.addEventListener("keydown", function(event){
 
@@ -100,6 +95,19 @@ editor.addEventListener("keydown", function(event){
 
     }
 });
+
+function GetFont(name)
+{
+    for(var v = 0; v < SupportedFont.length; v++)
+    {
+        if(SupportedFont[v] == name)
+        {
+            return FontClassName[v];
+        }
+    }
+
+    return FontClassName[0];
+}
 
 function RetrieveText(docfragment)
 {
@@ -289,14 +297,36 @@ function RemoveCuts(text, next)
     }
 }
 
+function MoveIntoParagraph(sections)
+{
+    if(!IsInParagraph(sections))
+    { 
+       sections.pre += "<p>";
+       sections.end += "</p>";
+    }
+    
+    return sections;
+}
+
+function IsInParagraph(sections)
+{
+    if(sections)
+    {
+        var last = sections.pre.lastIndexOf("<p");
+        var clse = sections.pre.lastIndexOf("</p");
+
+        if(last != -1 && last > clse)
+        {
+            return true;
+        }
+    }
+    
+    return false;
+}
+
 // moves open and close to the right location
 function MovePairsForInsert(sections)
 {
-    var ignore = false;
-
-    console.log(sections);
-
-
     if(sections.mid == '')
     { 
         var last = sections.pre.lastIndexOf("<p");
@@ -310,16 +340,8 @@ function MovePairsForInsert(sections)
 
             sections.pre = befr;
             sections.end = plst + sections.end;
-
-            console.log(sections);
-
         }
-
-        
-
     }
-
-    
 
     return sections;
 }
