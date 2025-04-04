@@ -42,8 +42,6 @@ editor.addEventListener("focus", function() {
     {
         InsertRawHTML('<p id="initP"></p>', GetTextSections());
     }
-
-    console.log(document.activeElement);
 });
 
 editor.addEventListener('click', function(event) {
@@ -67,9 +65,20 @@ editor.addEventListener("paste", function(event){
     var sect = GetTextSections();
 
     // make sure the selection is inside a paragraph
-    sect = MoveIntoParagraph(sect);
+    var move = MoveIntoParagraph(sect);
 
-    InsertRawHTML(text, sect);
+    InsertRawHTML(text, move.sect);
+
+    if(move.id != "")
+    {
+        var para = document.getElementById(move.id);
+        AssignRange(para);
+        para.removeAttribute("id");
+    }
+    else
+    {
+        if(selectedParagraph) AssignRange(selectedParagraph);
+    }   
 });
 
 editor.addEventListener("keydown", function(event){
@@ -92,6 +101,8 @@ editor.addEventListener("keydown", function(event){
         var element = document.getElementById(pel);
 
         AssignRange(element);
+
+        element.removeAttribute("id");
 
     }
 });
@@ -220,6 +231,7 @@ function GetEditorText()
 
 function SetEditorText(text)
 {
+    text = RemoveEmpty(text, "p");
     editor.innerHTML = text;
 }
 
@@ -299,13 +311,22 @@ function RemoveCuts(text, next)
 
 function MoveIntoParagraph(sections)
 {
+    var eid = "p_" + (paraCount++);
+
     if(!IsInParagraph(sections))
     { 
-       sections.pre += "<p>";
-       sections.end += "</p>";
+       sections.pre += '<p id="' + eid + '">';
+       sections.end += '</p>';
+    }
+    else
+    {
+        eid = "";
     }
     
-    return sections;
+    return {
+        sect: sections,
+        id: eid
+    };
 }
 
 function IsInParagraph(sections)
@@ -484,7 +505,8 @@ function InsertRawHTML(rawHtml, sections)
 
         SetEditorText(nText);
     }
-    else{
+    else
+    {
         var nText = txt.pre + rawHtml + txt.end;
 
         SetEditorText(nText);
@@ -506,6 +528,21 @@ function RemoveDuplicates(text, type)
     if(val.includes(tyc + tyc))
     {
         val = val.replaceAll(tyo + tyo, "");
+    }
+
+    return val;
+}
+
+function RemoveEmpty(text, type)
+{
+    var val = text;
+
+    var tyo = buildType(type, false);
+    var tyc = buildType(type, true);
+
+    if(val.includes(tyo + tyc))
+    {
+        val = val.replaceAll(tyo + tyc, "");
     }
 
     return val;

@@ -9,10 +9,11 @@ body {
 #editor {
     border: 1px dashed #aa845b;
     min-height: 200px;
-    max-width: 587px;
+    max-width: 565px;
     padding: 10px;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     border-radius: 4px;
+    padding-top:30px;
 }
 
 #editor:hover {
