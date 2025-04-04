@@ -28,6 +28,12 @@ document.getElementById('italicsButton').addEventListener('click', function() {
 
 });
 
+document.getElementById('lineButton').addEventListener('click', function() {
+
+   InsertLine();
+
+});
+
 document.getElementById('clearButton').addEventListener('click', function() {
 
    ClearFormating();

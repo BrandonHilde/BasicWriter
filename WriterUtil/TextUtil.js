@@ -53,7 +53,7 @@ editor.addEventListener("focus", function() {
 
     if(editor.innerHTML.trim() == "")
     {
-        InsertRawHTML('<p id="initP"></p>');
+        InsertRawHTML('<p id="initP"></p>', GetTextSections());
     }
 
     console.log(document.activeElement);
@@ -93,7 +93,7 @@ editor.addEventListener("keydown", function(event){
 
         var pel = 'p_' + (paraCount++).toString();
 
-        InsertRawHTML('</p><p id="' + pel + '"><br>');
+        InsertRawHTML('</p><p id="' + pel + '"><br>', GetTextSections());
 
         var element = document.getElementById(pel);
 
@@ -135,8 +135,6 @@ function AssignRange(element)
     const selection = window.getSelection();
     const range = selection.getRangeAt(0);
 
-    // range.setStart(element.lastChild, 0);
-    // range.setEnd(element.lastChild, 0);
     if(element)
     {
         if(element.lastChild)
@@ -146,8 +144,6 @@ function AssignRange(element)
 
     selection.removeAllRanges();
     selection.addRange(range);
-
-    //range.deleteContents();
 }
 
 function GetRelativePosition()
@@ -233,7 +229,11 @@ function ClearFormating()
 
 function InsertLine()
 {
-    InsertRawHTML('<hr>');
+    var sect = GetTextSections();
+
+    sect = MovePairsForInsert(sect);
+
+    InsertRawHTML('<hr>', sect);
 }
 
 function ClearFromText(text)
@@ -247,7 +247,6 @@ function ClearFromText(text)
         if(text[v] == '<' && text[v + 1] != 'p')
         {
             inside = true;
-            console.log(text[v + 1]);
         }
         
         if(text[v] != '<')
@@ -291,15 +290,47 @@ function RemoveCuts(text, next)
     }
 }
 
+// moves open and close to the right location
+function MovePairsForInsert(sections)
+{
+    var ignore = false;
+
+    console.log(sections);
+
+
+    if(sections.mid == '')
+    { 
+        var last = sections.pre.lastIndexOf("<p");
+        var clse = sections.pre.lastIndexOf("</p");
+
+        if(last != -1 && last > clse)
+        {
+            var befr = sections.pre.substring(0, last);
+            var plst = sections.pre.substring(last);
+
+
+            sections.pre = befr;
+            sections.end = plst + sections.end;
+
+            console.log(sections);
+
+        }
+
+        
+
+    }
+
+    
+
+    return sections;
+}
+
+// removes breaks in an element but not pairs
 function GetTextSections()
 {
     const startend = GetRelativePosition();
 
-    console.log(startend);
-
     const editText = GetEditorText().toString();
-
-    console.log(editText);
 
     var preText = editText.substring(0, startend.start);
     var midText = editText.substring(startend.start, startend.end);
@@ -316,14 +347,10 @@ function GetTextSections()
     {
         var procPre = RemoveCuts(preText, midText);
 
-        console.log(procPre);
-
         preText = procPre.txt;
         midText = procPre.nxt;
 
         var procMid = RemoveCuts(midText, endText);
-
-        console.log(procMid);
 
         midText = procMid.txt;
         endText = procMid.nxt;
@@ -334,8 +361,6 @@ function GetTextSections()
         mid: midText,
         end: endText
     };
-
-    console.log(value);
 
     return value;
 }
@@ -428,9 +453,9 @@ function AddType(type, selectTyp)
     SetEditorText(nText);
 }
 
-function InsertRawHTML(rawHtml)
+function InsertRawHTML(rawHtml, sections)
 {
-    var txt = GetTextSections();
+    var txt = sections;
 
     if(txt.mid == '')
     {
