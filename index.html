@@ -9,8 +9,8 @@
 <body>
     <div style="margin: auto; width: 630px;">
     <h1>Basic Writer</h1>
-    
-    <div class="toolbar">
+    <button id="exportHTML">Save As HTML</button>
+    <div class="toolbar" id="tl">
         <button id="boldButton"><strong>B</strong></button>
         <button id="underlineButton"><u>U</u></button>
         <button id="strikeButton"><s>S</s></button>
@@ -53,6 +53,10 @@
     </div>
 </div>
 </body>
-<script src="WriterUtil/TextUtil.js"></script>
-<script src="script.js"></script>
+    <!-- Include jsPDF library with specific version -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="WriterUtil/TextUtil.js"></script>
+    <script src="WriterUtil/PdfUtil.js"></script>
+    <script src="script.js"></script>
+
 </html>

@@ -53,7 +53,7 @@ editor.addEventListener('click', function(event) {
         selectedParagraph = ele;
     }
 
-  });
+});
 
 editor.addEventListener("paste", function(event){
 
