@@ -45,6 +45,10 @@ document.getElementById('setupButton').addEventListener('click', function() {
 
 });
 
+editor.addEventListener('input', function(){
+   //document.getElementById('dragdropinfo').style.display = "none";
+});
+
 fontSelect.addEventListener('change', function() {
 
    if(selectedParagraph)
@@ -73,6 +77,65 @@ document.getElementById('exportHTML').addEventListener('click', function() {
    SaveToHTML("document.html");
    
 });
+
+document.addEventListener('dragenter', function(ev) {
+   ev.preventDefault();
+   ev.stopPropagation();
+});
+
+document.addEventListener('dragover', function(ev) {
+   ev.preventDefault();
+   ev.stopPropagation();
+});
+
+document.addEventListener('drop', function(ev) {
+   FileDrop(ev);
+});
+
+function FileDrop(ev)
+{
+   ev.preventDefault();
+   ev.stopPropagation();
+
+   const dt = ev.dataTransfer;
+   const files = dt.files;
+
+   if (files.length > 0) {
+      const file = files[0];
+      
+      console.log(file);
+
+     
+          const reader = new FileReader();
+          
+          reader.onload = function(ev) {
+             //e.target.result
+            var data = ev.target.result;
+            if (file.type.startsWith('text/html')) {
+               var inx = data.indexOf("<body>");
+               var inc = data.indexOf("</body>");
+
+               if(inx > -1 && inc > -1 && inx < inc)
+               {
+                  data = data.substring(inx, inc);
+
+                  editor.innerHTML = data;
+               }
+               else{
+                  editor.innerHTML = data;
+               }
+          }
+          else if(file.type.startsWith('text/plain'))
+          {
+            // needs /r/n replace
+               editor.innerHTML = data;
+          }
+          
+         
+      }
+      reader.readAsText(file);
+   }
+}
 
 function ToggleType(type)
 {
