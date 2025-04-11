@@ -24,6 +24,17 @@ body {
     outline: none;
 }
 
+.imgButton {
+    width: 42px;
+    background-color: #2e2215;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 4px;
+    padding-left: 4px;
+    padding-right: 4px;
+    vertical-align: top;
+}
+
 .dragdrop
 {
 

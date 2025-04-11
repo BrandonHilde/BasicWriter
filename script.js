@@ -45,6 +45,33 @@ document.getElementById('setupButton').addEventListener('click', function() {
 
 });
 
+document.getElementById('leftAlignButton').addEventListener('click', function() {
+
+   if(selectedParagraph)
+   {
+      selectedParagraph.removeAttribute("align");
+   }
+
+});
+
+document.getElementById('rightAlignButton').addEventListener('click', function() {
+
+   if(selectedParagraph)
+   {
+      selectedParagraph.align = "right";
+   }
+
+});
+
+document.getElementById('centerAlignButton').addEventListener('click', function() {
+
+   if(selectedParagraph)
+   {
+      selectedParagraph.align = "center";
+   }
+
+});
+
 editor.addEventListener('input', function(){
    //document.getElementById('dragdropinfo').style.display = "none";
 });
