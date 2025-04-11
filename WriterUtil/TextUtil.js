@@ -384,6 +384,12 @@ function GetTextSections()
 
         preText = procPre.txt;
         endText = procPre.nxt;
+
+        if(endText.startsWith("<hr>"))
+        {
+            endText = endText.substring("<hr>".length);
+            preText += "<hr>";
+        }
     }
     else
     {
@@ -498,6 +504,8 @@ function AddType(type, selectTyp)
 function InsertRawHTML(rawHtml, sections)
 {
     var txt = sections;
+
+    console.log(txt);
 
     if(txt.mid == '')
     {
