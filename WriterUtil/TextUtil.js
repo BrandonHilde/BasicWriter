@@ -2,6 +2,7 @@ const editor = document.getElementById("editor");
 
 var paraCount = 0;
 var selectedParagraph = null;
+var hasSet = false;
 
 const SupportedTextTypes = {
     Title: "h1",
@@ -53,6 +54,42 @@ editor.addEventListener('click', function(event) {
         selectedParagraph = ele;
     }
 
+    hasSet = false;
+
+});
+
+document.addEventListener('selectionchange', function(event) {
+
+    if(!hasSet)
+    {
+        hasSet = true;
+
+        var sel = GetTextSections();
+
+        console.log(sel);
+
+        var paras = editor.getElementsByTagName("p");
+        
+        if(sel.mid == '')
+        {
+            if(sel.end == '')
+            {
+                // is after end
+                var par = paras[paras.length - 1];
+                var rang = setSelectionToEnd(par);
+            }
+
+            if(sel.pre == '')
+            {
+                // is before start
+                var par = paras[0];
+                var rang = setSelectionToEnd(par);
+            }
+        }
+
+        //RemoveAllSelections();
+    }
+    
 });
 
 editor.addEventListener("paste", function(event){
@@ -86,9 +123,8 @@ editor.addEventListener("keydown", function(event){
     if(event.key == "Tab")
     {
         event.preventDefault();
-        event.stopPropagation();
-        console.log(event.key);
-        //override tab
+        
+        InsertTab();
     }
     else if(event.key == "Enter")
     {
@@ -106,6 +142,30 @@ editor.addEventListener("keydown", function(event){
 
     }
 });
+
+function RemoveAllSelections()
+{
+    const sel = window.getSelection();
+    sel.removeAllRanges();
+}
+
+function setSelectionToEnd(element) {
+
+    const range = document.createRange();
+    
+    // Set the range to the end of the contenteditable element
+    range.selectNodeContents(element);
+    range.collapse(false); // false means collapse to end
+
+    const selection = window.getSelection();
+    
+
+    selection.removeAllRanges();
+
+    selection.addRange(range);
+    
+   // element.focus();
+  }
 
 function GetFont(name)
 {
@@ -162,6 +222,8 @@ function AssignRange(element)
 
     selection.removeAllRanges();
     selection.addRange(range);
+
+    return selection;
 }
 
 function GetRelativePosition()
@@ -255,6 +317,21 @@ function InsertLine()
     InsertRawHTML('<hr>', sect);
 }
 
+function InsertTab() {    
+    const selection = window.getSelection();
+    const range = selection.getRangeAt(0);
+
+    const span = document.createElement('span');
+    span.appendChild(document.createTextNode('\t'));
+    span.style.whiteSpace = 'pre';
+    range.insertNode(span);
+
+    range.setStartAfter(span);
+    range.collapse(true);
+    selection.removeAllRanges();
+    selection.addRange(range);
+}
+
 function ClearFromText(text)
 {
     var ntxt = "";
@@ -333,8 +410,24 @@ function IsInParagraph(sections)
 {
     if(sections)
     {
+
+        var rel = GetRelativePosition();
+
         var last = sections.pre.lastIndexOf("<p");
         var clse = sections.pre.lastIndexOf("</p");
+
+        console.log(last, clse);
+
+        if(sections.mid == '')
+        {
+            if(rel.start == rel.end)
+            {
+                if(rel.start == clse + 4)
+                {
+                    return true;
+                }
+            }
+        }
 
         if(last != -1 && last > clse)
         {
@@ -428,6 +521,11 @@ function AddType(type, selectTyp)
 {
     var sect = GetTextSections();
 
+    if(!IsInParagraph(sect))
+    {
+        sect = MovePairsForInsert(sect);
+    }
+
     var mid = sect.mid;
 
     var tyo = buildType(type, false);
@@ -504,22 +602,25 @@ function AddType(type, selectTyp)
 function InsertRawHTML(rawHtml, sections)
 {
     var txt = sections;
-
-    console.log(txt);
+    var nText = '';
 
     if(txt.mid == '')
     {
-        var nText = txt.pre + rawHtml + txt.end;
+        nText = txt.pre + rawHtml + txt.end;
 
         SetEditorText(nText);
     }
     else
     {
-        var nText = txt.pre + rawHtml + txt.end;
+        nText = txt.pre + rawHtml + txt.end;
 
         SetEditorText(nText);
     }
+
+    console.log(nText);
 }
+
+   
 
 function RemoveDuplicates(text, type)
 {
