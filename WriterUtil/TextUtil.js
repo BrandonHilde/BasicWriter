@@ -163,10 +163,9 @@ editor.addEventListener("keydown", function(event){
         element.appendChild(document.createTextNode('\t'));
         element.style.whiteSpace = 'pre';
 
-        AssignRange(element);
+        SetSelectionToEnd(element);
 
         element.removeAttribute("id");
-
     }
 });
 
