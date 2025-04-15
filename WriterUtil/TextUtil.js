@@ -39,10 +39,10 @@ const FontClassName = [
 
 editor.addEventListener("focus", function() {
 
-    if(editor.innerHTML.trim() == "")
-    {
-        InsertRawHTML('<p id="initP"></p>', GetTextSections());
-    }
+    // if(editor.innerHTML.trim() == "")
+    // {
+    //     InsertRawHTML('<p id="initP"></p>', GetTextSections());
+    // }
 });
 
 editor.addEventListener('click', function(event) {
@@ -60,35 +60,36 @@ editor.addEventListener('click', function(event) {
 
 document.addEventListener('selectionchange', function(event) {
 
-    if(!hasSet)
-    {
-        hasSet = true;
+    // if(!hasSet)
+    // {
+    //     hasSet = true;
 
-        var sel = GetTextSections();
+    //     var sel = GetTextSections();
 
-        console.log(sel);
+    //     console.log(sel);
 
-        var paras = editor.getElementsByTagName("p");
+    //     var paras = editor.getElementsByTagName("p");
         
-        if(sel.mid == '')
-        {
-            if(sel.end == '')
-            {
-                // is after end
-                var par = paras[paras.length - 1];
-                var rang = setSelectionToEnd(par);
-            }
+    //     if(sel.mid == '')
+    //     {
+    //         if(sel.end == '')
+    //         {
+    //             // is after end
+    //             var par = paras[paras.length - 1];
+    //             //var rang = SetSelectionToEnd(par);
+    //         }
 
-            if(sel.pre == '')
-            {
-                // is before start
-                var par = paras[0];
-                var rang = setSelectionToEnd(par);
-            }
-        }
+    //         if(sel.pre == '')
+    //         {
+    //             // is before start
+    //             var par = paras[0];
+    //             //var rang = SetSelectionToEnd(par);
+    //             //AssignRange(par);
+    //         }
+    //     }
 
-        //RemoveAllSelections();
-    }
+    //     //RemoveAllSelections();
+    // }
     
 });
 
@@ -149,13 +150,31 @@ function RemoveAllSelections()
     sel.removeAllRanges();
 }
 
-function setSelectionToEnd(element) {
+function SetSelectionToEnd(element) {
 
     const range = document.createRange();
     
     // Set the range to the end of the contenteditable element
     range.selectNodeContents(element);
     range.collapse(false); // false means collapse to end
+
+    const selection = window.getSelection();
+    
+
+    selection.removeAllRanges();
+
+    selection.addRange(range);
+    
+   // element.focus();
+  }
+
+  function SetSelectionToStart(element) {
+
+    const range = document.createRange();
+    
+    // Set the range to the end of the contenteditable element
+    range.selectNodeContents(element);
+    range.collapse(true); 
 
     const selection = window.getSelection();
     
