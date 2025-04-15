@@ -11,7 +11,6 @@ span{
 }
 
 #editor {
-    white-space: pre;
     border: 1px dashed #aa845b;
     min-height: 200px;
     max-width: 585px;
@@ -42,7 +41,6 @@ span{
 
 .dragdrop
 {
-
     font-size: 20pt;
     border-radius: 5px;
     border: 2px dotted #2e2215;

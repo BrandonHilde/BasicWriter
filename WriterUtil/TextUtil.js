@@ -93,6 +93,7 @@ document.addEventListener('selectionchange', function(event) {
     
 });
 
+// MARK: PASTE
 editor.addEventListener("paste", function(event){
 
     event.preventDefault();
@@ -119,23 +120,48 @@ editor.addEventListener("paste", function(event){
     }   
 });
 
+//MARK: KEYDOWN
 editor.addEventListener("keydown", function(event){
 
-    if(event.key == "Tab")
+    if(event.key == "Enter")
     {
         event.preventDefault();
         
-        InsertTab();
+        var pel = 'p_' + (paraCount++).toString();
+
+        var sect = GetTextSections();
+        
+        //console.log(sect);
+
+        var raw = '</p><p id="' + pel + '">';
+
+        if(sect.pre.endsWith("<p>"))
+        {
+            raw = '<br>' + raw;
+        }
+
+        if(!HasTextContent(sect)){ raw += '<br>';}
+
+        InsertRawHTML(raw, sect);
+
+        var element = document.getElementById(pel);
+
+        SetSelectionToStart(element);
+
+        element.removeAttribute("id");
     }
-    else if(event.key == "Enter")
+    else if(event.key == "Tab")
     {
         event.preventDefault();
 
         var pel = 'p_' + (paraCount++).toString();
 
-        InsertRawHTML('</p><p id="' + pel + '"><br>', GetTextSections());
+        InsertRawHTML('<span id="' + pel + '"></span>', GetTextSections());
 
         var element = document.getElementById(pel);
+
+        element.appendChild(document.createTextNode('\t'));
+        element.style.whiteSpace = 'pre';
 
         AssignRange(element);
 
@@ -185,6 +211,25 @@ function SetSelectionToEnd(element) {
     
    // element.focus();
   }
+
+function HasTextContent(sections)
+{
+    var inside = false;
+
+    for(var v = 0; v < sections.end.length; v++)
+    {
+        if(sections.end[v] == '<') inside = true;
+        if(sections.end[v] == '>') inside = false;
+
+
+        if(!inside && sections.end[v] != '')
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
 
 function GetFont(name)
 {
@@ -333,7 +378,7 @@ function InsertLine()
 
     sect = MovePairsForInsert(sect);
 
-    InsertRawHTML('<hr>', sect);
+    InsertRawHTML('<hr/>', sect);
 }
 
 function InsertTab() {    
@@ -457,6 +502,8 @@ function IsInParagraph(sections)
     return false;
 }
 
+//MARK: MOVE PAIRS
+
 // moves open and close to the right location
 function MovePairsForInsert(sections)
 {
@@ -473,6 +520,26 @@ function MovePairsForInsert(sections)
 
             sections.pre = befr;
             sections.end = plst + sections.end;
+        }
+    }
+
+    return sections;
+}
+
+// moves paragraph into pre
+function MovePairsForEnter(sections)
+{
+    if(sections.mid == '')
+    { 
+        var clse = sections.end.indexOf("</p");
+
+        if(clse != -1)
+        {
+            var befr = sections.end.substring(0, clse + "</p>".length);
+            var plst = sections.end.substring(clse + "</p>".length);
+
+            sections.pre += befr;
+            sections.end = plst;
         }
     }
 
@@ -636,7 +703,7 @@ function InsertRawHTML(rawHtml, sections)
         SetEditorText(nText);
     }
 
-    console.log(nText);
+   // console.log(nText);
 }
 
    
