@@ -39,6 +39,14 @@ span{
     vertical-align: top;
 }
 
+.imgButton:hover {
+    background-color: #ffa738;
+}
+
+Select:hover {
+    background-color: #ffa738;
+}
+
 .dragdrop
 {
     font-size: 20pt;
@@ -54,7 +62,7 @@ span{
     border-radius: 8px;
     padding: 10px;
     border: 1px dashed #2e2215;
-    background-color: #ffca91;
+    background-color: #ffa738;
 }
 
 select::-webkit-scrollbar {
@@ -97,7 +105,7 @@ button {
 }
 
 button:hover {
-    background-color: #45a049;
+    background-color: #ffa738;
 }
 
 .toolbar {

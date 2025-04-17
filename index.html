@@ -10,26 +10,34 @@
     <div style="margin: auto; width: 630px;">
     <h1>Basic Writer</h1>
     <button id="exportHTML">Save As HTML</button>
-    <div class="toolbar" id="tl">
-        <button id="boldButton"><strong>B</strong></button>
-        <button id="underlineButton"><u>U</u></button>
-        <button id="strikeButton"><s>S</s></button>
-        <button id="italicsButton"><em>I</em></button>
-        <button id="setupButton">Set Defaults</button>
-        <img id="leftAlignButton" class="imgButton" src="img/leftAlign.svg"/>
-        <img id="rightAlignButton" class="imgButton" src="img/rightAlign.svg"/>
-        <img id="centerAlignButton" class="imgButton" src="img/centerAlign.svg"/>
-    </div>
     <div class="toolbar" id="tl2">
+        <button id="setupButton">Set Defaults</button>
         <select id="setFontSelect">
+            <option selected disabled>Set Font</option>
             <option class="BonaNova">Bona Nova</option>
             <option class="MedulaOne">Medula One</option>
             <option class="CutiveMono">Cutive Mono</option>
             <option class="Lexend">Lexend</option>
         </select>
+        <select id="setSize">
+            <option>11pt</option>
+            <option>12pt</option>
+            <option>14pt</option>
+            <option>16pt</option>
+        </select>
+    </div>
+    <div class="toolbar" id="tl">
+        <button id="boldButton"><strong>B</strong></button>
+        <button id="underlineButton"><u>U</u></button>
+        <button id="strikeButton"><s>S</s></button>
+        <button id="italicsButton"><em>I</em></button>
         <button id="clearButton">Clear</button>
         <button id="lineButton">Line</button>
+        <img id="leftAlignButton" class="imgButton" src="img/leftAlign.svg"/>
+        <img id="rightAlignButton" class="imgButton" src="img/rightAlign.svg"/>
+        <img id="centerAlignButton" class="imgButton" src="img/centerAlign.svg"/>
     </div>
+   
 
     <div id="menu" class="Menu" style="display: none;">
         <select id="setDefaultFont">

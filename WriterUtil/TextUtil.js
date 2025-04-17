@@ -146,6 +146,8 @@ editor.addEventListener("keydown", function(event){
 
         var element = document.getElementById(pel);
 
+        selectedParagraph = element;
+
         SetSelectionToStart(element);
 
         element.removeAttribute("id");

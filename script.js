@@ -2,6 +2,7 @@ const menu = document.getElementById('menu');
 const fontSelect = document.getElementById('setFontSelect');
 const defaultFont = document.getElementById('setDefaultFont');
 const defaultSize = document.getElementById('setDefaultSize');
+const paraSize = document.getElementById('setSize');
 
 document.getElementById('boldButton').addEventListener('click', function() {
 
@@ -76,11 +77,44 @@ editor.addEventListener('input', function(){
    //document.getElementById('dragdropinfo').style.display = "none";
 });
 
+fontSelect.addEventListener('mouseenter', function() {
+
+   HighlightParagraph(selectedParagraph);
+
+});
+
+fontSelect.addEventListener('mouseleave', function() {
+
+   ResetParagraph(selectedParagraph);
+
+});
+
+paraSize.addEventListener('mouseenter', function() {
+
+   HighlightParagraph(selectedParagraph);
+
+});
+
+paraSize.addEventListener('mouseleave', function() {
+
+   ResetParagraph(selectedParagraph);
+   
+});
+
 fontSelect.addEventListener('change', function() {
 
    if(selectedParagraph)
    {
       selectedParagraph.className = GetFont(fontSelect.value);
+   }
+
+});
+
+paraSize.addEventListener('change', function() {
+
+   if(selectedParagraph)
+   {
+      selectedParagraph.style.fontSize = paraSize.value;
    }
 
 });
@@ -214,3 +248,19 @@ function SaveToHTML(filename)
    SaveToRawText(data, filename);
 }
 
+function HighlightParagraph(para)
+{
+   if(para)
+   {
+      para.style.backgroundColor = "wheat";
+      para.style.borderRadius = "5px";
+   }
+}
+function ResetParagraph(para)
+{
+   if(para)
+   {
+      para.style.backgroundColor = "";
+      para.style.borderRadius = "";
+   }
+}
