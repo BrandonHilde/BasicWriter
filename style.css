@@ -10,6 +10,14 @@ span{
     tab-size: 5;
 }
 
+hr {
+    display: block;
+    height: 2px;
+    border: 0;
+    border-top: 2px dashed #2e2215;
+    padding: 0;
+}
+
 #editor {
     border: 1px dashed #aa845b;
     min-height: 200px;
@@ -51,7 +59,7 @@ Select:hover {
 {
     font-size: 20pt;
     border-radius: 5px;
-    border: 2px dotted #2e2215;
+    border: 1px dashed #2e2215;
     padding: 10px;
     margin-right:20px;
     color: #2e2215;
