@@ -792,7 +792,6 @@ function isInsideType(type)
     }
 
     return val;
-
 }
 
 function numberOfType(type, text)
@@ -812,4 +811,14 @@ function numberOfType(type, text)
     }
 
     return count;
+}
+
+function WordCount(element)
+{
+    var text = element.innerText;
+
+    // splits at space and newline etc.
+    var splt = text.split(/\s+/);
+
+    return splt.length;
 }

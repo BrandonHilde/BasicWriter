@@ -31,6 +31,7 @@ document.getElementById('italicsButton').addEventListener('click', function() {
 document.getElementById('lineButton').addEventListener('click', function() {
 
    InsertLine();
+   WordCount(editor);
 
 });
 
