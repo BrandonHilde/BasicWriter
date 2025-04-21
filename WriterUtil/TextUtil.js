@@ -364,13 +364,13 @@ function SetEditorText(text)
 
 function ClearFormating()
 {
-    var sect = GetTextSections();
-
-    var mid = ClearFromText(sect.mid);
-
-    var nText = sect.pre + mid + sect.end;
-
-    SetEditorText(nText);
+    if(selectedParagraph)
+    {
+        var txt = selectedParagraph.innerText;
+        selectedParagraph.innerHTML = txt;
+        selectedParagraph.removeAttribute("align");
+        selectedParagraph.removeAttribute("class");
+    }
 }
 
 function InsertLine()

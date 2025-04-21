@@ -45,14 +45,12 @@ hr {
     padding-left: 4px;
     padding-right: 4px;
     vertical-align: top;
+    stroke: wheat;
 }
 
 .imgButton:hover {
-    background-color: #ffa738;
-}
-
-Select:hover {
-    background-color: #ffa738;
+    background-color: wheat;
+    stroke:#2e2215;
 }
 
 .dragdrop
@@ -70,12 +68,17 @@ Select:hover {
     border-radius: 8px;
     padding: 10px;
     border: 1px dashed #2e2215;
-    background-color: #ffa738;
+    background-color: wheat;
 }
 
 select::-webkit-scrollbar {
     display: none;
   }
+
+Select:hover {
+    background-color: wheat;
+    color:#2e2215;
+}
 
 select{
     -webkit-appearance: none;
@@ -83,7 +86,7 @@ select{
     vertical-align: top;
     height: 100%;
     background-color: #2e2215;
-    color: white;
+    color: wheat;
     border: none;
     padding: 8px 16px;
     width: 180px;
@@ -99,7 +102,7 @@ select{
 button {
     font-family: 'Medula One';
     background-color: #2e2215;
-    color: white;
+    color: wheat;
     border: none;
     padding: 8px 16px;
     text-align: center;
@@ -113,7 +116,8 @@ button {
 }
 
 button:hover {
-    background-color: #ffa738;
+    background-color: wheat;
+    color:#2e2215;
 }
 
 .toolbar {

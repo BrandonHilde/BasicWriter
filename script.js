@@ -35,10 +35,24 @@ document.getElementById('lineButton').addEventListener('click', function() {
 
 });
 
-document.getElementById('clearButton').addEventListener('click', function() {
+var clearbutton = document.getElementById('clearButton');
+
+clearbutton.addEventListener('click', function() {
 
    ClearFormating();
 
+});
+
+clearbutton.addEventListener('mouseenter', function() {
+
+   HighlightParagraph(selectedParagraph);
+
+});
+
+clearbutton.addEventListener('mouseleave', function() {
+
+   ResetParagraph(selectedParagraph);
+   
 });
 
 document.getElementById('setupButton').addEventListener('click', function() {
@@ -47,7 +61,23 @@ document.getElementById('setupButton').addEventListener('click', function() {
 
 });
 
-document.getElementById('leftAlignButton').addEventListener('click', function() {
+var leftAlignButton = document.getElementById('leftAlignButton');
+var rightAlignButton = document.getElementById('rightAlignButton');
+var centerAlignButton = document.getElementById('centerAlignButton');
+
+leftAlignButton.addEventListener('mouseenter', function() {
+
+   HighlightParagraph(selectedParagraph);
+
+});
+
+leftAlignButton.addEventListener('mouseleave', function() {
+
+   ResetParagraph(selectedParagraph);
+   
+});
+
+leftAlignButton.addEventListener('click', function() {
 
    if(selectedParagraph)
    {
@@ -56,7 +86,19 @@ document.getElementById('leftAlignButton').addEventListener('click', function() 
 
 });
 
-document.getElementById('rightAlignButton').addEventListener('click', function() {
+rightAlignButton.addEventListener('mouseenter', function() {
+
+   HighlightParagraph(selectedParagraph);
+
+});
+
+rightAlignButton.addEventListener('mouseleave', function() {
+
+   ResetParagraph(selectedParagraph);
+   
+});
+
+rightAlignButton.addEventListener('click', function() {
 
    if(selectedParagraph)
    {
@@ -65,7 +107,19 @@ document.getElementById('rightAlignButton').addEventListener('click', function()
 
 });
 
-document.getElementById('centerAlignButton').addEventListener('click', function() {
+centerAlignButton.addEventListener('mouseenter', function() {
+
+   HighlightParagraph(selectedParagraph);
+
+});
+
+centerAlignButton.addEventListener('mouseleave', function() {
+
+   ResetParagraph(selectedParagraph);
+   
+});
+
+centerAlignButton.addEventListener('click', function() {
 
    if(selectedParagraph)
    {

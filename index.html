@@ -19,7 +19,7 @@
             <option class="CutiveMono">Cutive Mono</option>
             <option class="Lexend">Lexend</option>
         </select>
-        <select id="setSize">
+        <select style="width: 70px;" id="setSize">
             <option>11pt</option>
             <option>12pt</option>
             <option>14pt</option>
@@ -33,9 +33,15 @@
         <button id="italicsButton"><em>I</em></button>
         <button id="clearButton">Clear</button>
         <button id="lineButton">Line</button>
-        <img id="leftAlignButton" class="imgButton" src="img/leftAlign.svg"/>
-        <img id="rightAlignButton" class="imgButton" src="img/rightAlign.svg"/>
-        <img id="centerAlignButton" class="imgButton" src="img/centerAlign.svg"/>
+        <svg id="leftAlignButton" class="imgButton" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="none">
+            <path d="M3 10H16M3 14H21M3 18H16M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg id="centerAlignButton" class="imgButton" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="none">
+            <path  d="M3 6H21M3 14H21M17 10H7M17 18H7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <svg id="rightAlignButton" class="imgButton" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="none">
+            <path d="M8 10H21M3 14H21M8 18H21M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
     </div>
    
 
@@ -47,7 +53,7 @@
             <option class="Lexend">Lexend</option>
         </select>
 
-        <select id="setDefaultSize">
+        <select style="width: 70px;" id="setDefaultSize">
             <option>11pt</option>
             <option>12pt</option>
             <option>14pt</option>
