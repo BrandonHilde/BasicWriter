@@ -26,14 +26,16 @@ const SupportedFont = [
     "Bona Nova",
     "Medula One",
     "Cutive Mono",
-    "Lexend"
+    "Lexend",
+    "Times New Roman"
 ];
 
 const FontClassName = [
     "BonaNova",
     "MedulaOne",
     "CutiveMono",
-    "Lexend"
+    "Lexend",
+    "TimesNewRoman"
 ];
 
 

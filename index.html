@@ -9,15 +9,21 @@
 <body>
     <div style="margin: auto; width: 630px;">
     <h1>Basic Writer</h1>
-    <button id="exportHTML">Save As HTML</button>
-    <div class="toolbar" id="tl2">
+    <h3>Document:</h3>
+    <div class="toolbar"> 
+        <button id="exportHTML">Save As HTML</button>
         <button id="setupButton">Set Defaults</button>
+    </div>
+    <h3>Selected Paragraph:</h3>
+    <div class="toolbar" id="tl2">
+        <button id="clearButton">Clear Formating</button>
         <select id="setFontSelect">
             <option selected disabled>Set Font</option>
             <option class="BonaNova">Bona Nova</option>
             <option class="MedulaOne">Medula One</option>
             <option class="CutiveMono">Cutive Mono</option>
             <option class="Lexend">Lexend</option>
+            <option class="TimesNewRoman">Times New Roman</option>
         </select>
         <select style="width: 70px;" id="setSize">
             <option>11pt</option>
@@ -26,12 +32,12 @@
             <option>16pt</option>
         </select>
     </div>
+    <h3>Text Alteration:</h3>
     <div class="toolbar" id="tl">
         <button id="boldButton"><strong>B</strong></button>
         <button id="underlineButton"><u>U</u></button>
         <button id="strikeButton"><s>S</s></button>
         <button id="italicsButton"><em>I</em></button>
-        <button id="clearButton">Clear</button>
         <button id="lineButton">Line</button>
         <svg id="leftAlignButton" class="imgButton" xmlns="http://www.w3.org/2000/svg" width="40px" height="40px" viewBox="0 0 24 24" fill="none">
             <path d="M3 10H16M3 14H21M3 18H16M3 6H21" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -51,6 +57,7 @@
             <option class="MedulaOne">Medula One</option>
             <option class="CutiveMono">Cutive Mono</option>
             <option class="Lexend">Lexend</option>
+            <option class="TimesNewRoman">Times New Roman</option>
         </select>
 
         <select style="width: 70px;" id="setDefaultSize">

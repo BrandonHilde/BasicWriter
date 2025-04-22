@@ -61,6 +61,7 @@ document.getElementById('setupButton').addEventListener('click', function() {
 
 });
 
+//MARK: alignment
 var leftAlignButton = document.getElementById('leftAlignButton');
 var rightAlignButton = document.getElementById('rightAlignButton');
 var centerAlignButton = document.getElementById('centerAlignButton');
@@ -132,6 +133,17 @@ editor.addEventListener('input', function(){
    //document.getElementById('dragdropinfo').style.display = "none";
 });
 
+//MARK: font select
+
+fontSelect.addEventListener('change', function() {
+
+   if(selectedParagraph)
+   {
+      selectedParagraph.className = GetFont(fontSelect.value);
+   }
+
+});
+
 fontSelect.addEventListener('mouseenter', function() {
 
    HighlightParagraph(selectedParagraph);
@@ -154,15 +166,6 @@ paraSize.addEventListener('mouseleave', function() {
 
    ResetParagraph(selectedParagraph);
    
-});
-
-fontSelect.addEventListener('change', function() {
-
-   if(selectedParagraph)
-   {
-      selectedParagraph.className = GetFont(fontSelect.value);
-   }
-
 });
 
 paraSize.addEventListener('change', function() {
@@ -243,8 +246,10 @@ function FileDrop(ev)
           }
           else if(file.type.startsWith('text/plain'))
           {
+            data = TextFileLoad(data);
             // needs /r/n replace
-               editor.innerHTML = data;
+          
+            editor.innerHTML = data;
           }
           
          
@@ -318,4 +323,48 @@ function ResetParagraph(para)
       para.style.backgroundColor = "";
       para.style.borderRadius = "";
    }
+}
+
+function TextFileLoad(file)
+{
+   var data = '<p>';
+
+   if(file.includes("\n"))
+   {  
+      for(var v = 0; v < file.length; v++)
+      {
+         if(file[v] === '\n')
+         {
+            if(v + 1 < file.length)
+            {
+               if(file[v + 1] === '\r')
+               {
+                  data += '</p><p><br>';
+               }
+               else{
+                  data += '</p><p>';
+               }
+            }
+            else
+            {
+               data += '</p><p>';
+            } 
+         }
+         else
+         {
+            data += file[v];
+         }
+      }
+
+      data += '</p>';
+   }
+   else
+   {
+      data += file + '</p>';
+   }
+
+   console.log(file);
+   console.log(data);
+
+   return data;
 }

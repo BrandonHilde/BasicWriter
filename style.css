@@ -10,6 +10,10 @@ span{
     tab-size: 5;
 }
 
+h3 {
+    margin:3px;
+}
+
 hr {
     display: block;
     height: 2px;
@@ -65,6 +69,9 @@ hr {
 
 .Menu {
     position: absolute;
+    top: 130px;
+    left: 220px;
+    box-shadow: 10px 10px 30px black;
     border-radius: 8px;
     padding: 10px;
     border: 1px dashed #2e2215;
@@ -174,6 +181,9 @@ p {
 
 .Lexend{
     font-family: 'Lexend';
+}
+.TimesNewRoman{
+    font-family: 'Times New Roman', Times, serif;
 }
 /*
 p {
