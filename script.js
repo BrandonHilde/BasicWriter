@@ -43,13 +43,15 @@ clearbutton.addEventListener('click', function() {
 
 });
 
-clearbutton.addEventListener('mouseenter', function() {
+var toolbarParagraph = document.getElementById('paraToolBar');
+
+toolbarParagraph.addEventListener('mouseenter', function() {
 
    HighlightParagraph(selectedParagraph);
 
 });
 
-clearbutton.addEventListener('mouseleave', function() {
+toolbarParagraph.addEventListener('mouseleave', function() {
 
    ResetParagraph(selectedParagraph);
    
@@ -66,18 +68,6 @@ var leftAlignButton = document.getElementById('leftAlignButton');
 var rightAlignButton = document.getElementById('rightAlignButton');
 var centerAlignButton = document.getElementById('centerAlignButton');
 
-leftAlignButton.addEventListener('mouseenter', function() {
-
-   HighlightParagraph(selectedParagraph);
-
-});
-
-leftAlignButton.addEventListener('mouseleave', function() {
-
-   ResetParagraph(selectedParagraph);
-   
-});
-
 leftAlignButton.addEventListener('click', function() {
 
    if(selectedParagraph)
@@ -87,18 +77,6 @@ leftAlignButton.addEventListener('click', function() {
 
 });
 
-rightAlignButton.addEventListener('mouseenter', function() {
-
-   HighlightParagraph(selectedParagraph);
-
-});
-
-rightAlignButton.addEventListener('mouseleave', function() {
-
-   ResetParagraph(selectedParagraph);
-   
-});
-
 rightAlignButton.addEventListener('click', function() {
 
    if(selectedParagraph)
@@ -106,18 +84,6 @@ rightAlignButton.addEventListener('click', function() {
       selectedParagraph.align = "right";
    }
 
-});
-
-centerAlignButton.addEventListener('mouseenter', function() {
-
-   HighlightParagraph(selectedParagraph);
-
-});
-
-centerAlignButton.addEventListener('mouseleave', function() {
-
-   ResetParagraph(selectedParagraph);
-   
 });
 
 centerAlignButton.addEventListener('click', function() {
@@ -142,30 +108,6 @@ fontSelect.addEventListener('change', function() {
       selectedParagraph.className = GetFont(fontSelect.value);
    }
 
-});
-
-fontSelect.addEventListener('mouseenter', function() {
-
-   HighlightParagraph(selectedParagraph);
-
-});
-
-fontSelect.addEventListener('mouseleave', function() {
-
-   ResetParagraph(selectedParagraph);
-
-});
-
-paraSize.addEventListener('mouseenter', function() {
-
-   HighlightParagraph(selectedParagraph);
-
-});
-
-paraSize.addEventListener('mouseleave', function() {
-
-   ResetParagraph(selectedParagraph);
-   
 });
 
 paraSize.addEventListener('change', function() {

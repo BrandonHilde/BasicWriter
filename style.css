@@ -70,7 +70,7 @@ hr {
 .Menu {
     position: absolute;
     top: 130px;
-    left: 220px;
+    left: 20%;
     box-shadow: 10px 10px 30px black;
     border-radius: 8px;
     padding: 10px;
@@ -88,6 +88,7 @@ Select:hover {
 }
 
 select{
+    height: 40px;
     -webkit-appearance: none;
     overflow: hidden;
     vertical-align: top;
@@ -129,7 +130,7 @@ button:hover {
 
 .toolbar {
     margin-bottom: 10px;
-    height: 42px;
+    min-height: 40px;
 }
 
 p {
