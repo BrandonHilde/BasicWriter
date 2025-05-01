@@ -92,7 +92,6 @@ select{
     -webkit-appearance: none;
     overflow: hidden;
     vertical-align: top;
-    height: 100%;
     background-color: #2e2215;
     color: wheat;
     border: none;
@@ -120,7 +119,7 @@ button {
     margin: 4px 2px;
     cursor: pointer;
     border-radius: 4px;
-    height: 100%;
+    height: 40px;
 }
 
 button:hover {
@@ -131,6 +130,14 @@ button:hover {
 .toolbar {
     margin-bottom: 10px;
     min-height: 40px;
+    display: inline;
+}
+
+.heading{
+    font-size: 22px;
+    margin-top: 10px;
+    height: 30px;
+    font-weight: bold;
 }
 
 p {
