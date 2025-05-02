@@ -147,21 +147,33 @@ p {
 
 /* fonts */
 @font-face {
-    font-family: 'Bona Nova';
-    src: url('font/Bona_Nova/BonaNova-Regular.ttf') format('truetype');
+    font-family: 'Lexend';
+    src: url('font/Lexend/Lexend-VariableFont_wght.ttf') format('truetype');
     font-weight: normal;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Bona Nova';
-    src: url('font/Bona_Nova/BonaNova-Bold.ttf') format('truetype');
+    font-family: 'Cutive Mono';
+    src: url('font/Cutive_Mono/CutiveMono-Regular.ttf') format('truetype');
     font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
+    font-family: 'Bona Nova Bold';
+    src: url('font/Bona_Nova/BonaNova-Bold.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
     font-family: 'Bona Nova';
+    src: url('font/Bona_Nova/BonaNova-Regular.ttf') format('truetype');
+    font-weight: normal;
+}
+
+@font-face {
+    font-family: 'Bona Nova Italic';
     src: url('font/Bona_Nova/BonaNova-Italic.ttf') format('truetype');
     font-weight: normal;
     font-style: italic;
