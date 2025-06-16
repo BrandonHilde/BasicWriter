@@ -126,11 +126,51 @@ button:hover {
     background-color: wheat;
     color:#2e2215;
 }
+#exportMenu{
+    display: none;
+    position: absolute;
+    top: 175px;
+    left: 20%;
+    box-shadow: 10px 10px 30px black;
+    border-radius: 8px;
+    padding: 10px;
+    border: 1px dashed #2e2215;
+    font-size: 22px;
+    font-family: 'Cutive Mono';
+    background-color: #2e2215;
+}
+
+.exportLabel{
+    cursor: pointer;
+    background-color: #2e2215;
+    color: #d9b997;
+    font-size: 16px;
+    margin: 4px 2px;
+}
+
+.exportLabel:hover{
+    color: wheat;
+}
+
+#export{
+    fill:#2e2215;
+    cursor: pointer;
+    width: 40px;
+    height: 48px;
+    vertical-align: middle;
+    display: inline-block;
+}
+
+#export:hover{
+    fill: wheat;
+    stroke:#2e2215;
+    cursor: pointer;
+}
 
 .toolbar {
     margin-bottom: 10px;
-    min-height: 40px;
-    display: inline;
+    min-height: 50px;
+    display: inline-block;
 }
 
 .heading{

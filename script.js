@@ -133,6 +133,25 @@ defaultSize.addEventListener('change', function() {
 
 });
 
+document.getElementById('export').addEventListener('click', function() {
+
+  var exmenu = document.getElementById('exportMenu');
+  if(exmenu.style.display == "block")
+  {
+    exmenu.style.display = "none";
+  }
+  else
+  {
+    exmenu.style.display = "block";
+  }
+   
+});
+
+document.getElementById('exportTxt').addEventListener('click', function() {
+
+   SaveToText("document.txt");
+   
+});
 document.getElementById('exportHTML').addEventListener('click', function() {
 
    SaveToHTML("document.html");
@@ -247,6 +266,15 @@ function SaveToHTML(filename)
 
    data += '</body></html>';
 
+   SaveToRawText(data, filename);
+}
+
+function SaveToText(filename)
+{
+   var data = editor.innerText;
+   // var post = document.createElement('p');
+   // post.textContent = data;
+   // data = post.innerHTML.replace(/\n/g, '<br>\n');
    SaveToRawText(data, filename);
 }
 
