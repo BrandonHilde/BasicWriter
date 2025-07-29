@@ -3,6 +3,11 @@ const fontSelect = document.getElementById('setFontSelect');
 const defaultFont = document.getElementById('setDefaultFont');
 const defaultSize = document.getElementById('setDefaultSize');
 const paraSize = document.getElementById('setSize');
+const exptMenu = document.getElementById('exportMenu');
+
+exptMenu.addEventListener('click', function() {
+   exptMenu.style.display = "none";
+});
 
 document.getElementById('boldButton').addEventListener('click', function() {
 
@@ -260,7 +265,13 @@ function SaveToRawText(data, filename)
 
 function SaveToHTML(filename)
 {
-   var data = '<html><head></head><body>';
+   var style =	
+   `<style type="text/css">
+		@page { size: 5.5in 8.5in; margin: 0.79in }
+		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+	</style>`;
+
+   var data = '<html><head>' + style + '</head><body>';
 
    data += editor.innerHTML;
 
