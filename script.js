@@ -162,6 +162,12 @@ document.getElementById('exportHTML').addEventListener('click', function() {
    SaveToHTML("document.html");
    
 });
+document.getElementById('exportRTF').addEventListener('click', function() {
+
+
+   SaveToRTF("document.rtf");
+   
+});
 
 document.addEventListener('dragenter', function(ev) {
    ev.preventDefault();
@@ -286,6 +292,34 @@ function SaveToText(filename)
    // var post = document.createElement('p');
    // post.textContent = data;
    // data = post.innerHTML.replace(/\n/g, '<br>\n');
+   SaveToRawText(data, filename);
+}
+
+function removeAttributes(editor)
+{
+   var paragraphs = editor.getElementsByTagName("p");
+
+   for (var v = 0; v < paragraphs.length; v++)
+   {
+      var element = paragraphs[v];
+
+      Object.values(element.attributes).forEach(({ name }) => 
+         element.removeAttribute(name)
+      );
+
+      console.log(element);
+   }
+}
+
+function SaveToRTF(filename)
+{
+
+   removeAttributes(editor);
+   var data = editor.innerHTML;
+   var rtfconvert = new BasicRTFtoHTMLConverter();
+
+   data = rtfconvert.ConvertHTMLtoRTF(data);
+
    SaveToRawText(data, filename);
 }
 

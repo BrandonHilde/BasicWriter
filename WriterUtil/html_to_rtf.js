@@ -33,52 +33,51 @@ class BasicRTFtoHTMLConverter {
         // Debug: log the input
         console.log('RTF Input:', rawRTF);
 
-        // Step-by-step RTF parsing with better regex patterns
-        // Remove opening RTF header
-        content = content.replace(/^\{\\rtf1\\ansi\\deff0/, '');
-
-        // Remove font table (simpler pattern that matches the actual structure)
-        content = content.replace(/\{\\fonttbl\{[^}]+\}\}/, '');
-
-        // Remove color table (more robust pattern)
-        content = content.replace(/\{\\colortbl[^}]*\}/, '');
-
-        // Remove document formatting
-        content = content.replace(/\\f\d+\\fs\d+\s*/, '');
-
-        // Remove final closing brace
+        // Remove RTF header and footer
+        content = content.replace(/^\{\\rtf1\\ansi\\deff0\{\\fonttbl\{\\f0\\froman Times New Roman;\}\}\{\\colortbl;\\red0\\green0\\blue0;\}\\f0\\fs24 /, '');
         content = content.replace(/\}$/, '');
 
-        console.log('After structure removal:', content);
+        // Handle HR first (most specific pattern)
+        content = content.replaceAll('{\\par \\brdrt\\brdrnone\\brdrl\\brdrnone\\brdrb\\brdrdb \\par}', '<hr>');
 
-        // Convert RTF formatting to HTML tags - preserve spaces properly
-        content = content.replace(/\\par\s*/g, '<br>');
+        // Reverse the exact order of ReplaceTags operations
+        // But be more careful about spaces - don't convert ALL spaces to &nbsp;
 
-        // Bold tags - handle spaces carefully
-        content = content.replaceAll(/\\b\s+/g, '<b>');
-        content = content.replaceAll(/\\b0\s+/g, '</b> ');
-        content = content.replaceAll(/\\b0$/g, '</b>');
+        // First undo the escaping (last operations in ReplaceTags)
+        content = content.replaceAll('\\\\', '\\');
+        content = content.replaceAll('\\{', '{');
+        content = content.replaceAll('\\}', '}');
 
-        // Italic tags - handle spaces carefully
-        content = content.replaceAll(/\\i\s+/g, '<em>');
-        content = content.replaceAll(/\\i0\s+/g, '</em> ');
-        content = content.replaceAll(/\\i0$/g, '</em>');
+        // Then undo the tag replacements (in reverse order)
+        content = content.replaceAll('\\ul0 ', '</u>');
+        content = content.replaceAll('\\ul ', '<u>');
+        content = content.replaceAll('\\i0 ', '</em>');
+        content = content.replaceAll('\\i ', '<em>');
+        content = content.replaceAll('\\strike0 ', '</s>');
+        content = content.replaceAll('\\strike ', '<s>');
+        content = content.replaceAll('\\b0 ', '</strong>');
+        content = content.replaceAll('\\b ', '<strong>');
+        content = content.replaceAll('{\\par', '<p><br>');
+        content = content.replaceAll('\\par ', '<p><br>');
+        content = content.replaceAll('}', '</p>');
 
-        // Underline tags - handle spaces carefully
-        content = content.replaceAll(/\\ul\s+/g, '<u>');
-        content = content.replaceAll(/\\ul0\s+/g, '</u> ');
-        content = content.replaceAll(/\\ul0$/g, '</u>');
+        // Clean up any remaining patterns
+        content = content.replaceAll('<br></p>', '</p>');
+        content = content.replaceAll('<p><br>', '<p>');
+        content = content.replaceAll('<p><p>', '<p><br>');
 
-        // Strikethrough tags - handle spaces carefully
-        content = content.replaceAll(/\\strike\s+/g, '<s>');
-        content = content.replaceAll(/\\strike0\s+/g, '</s> ');
-        content = content.replaceAll(/\\strike0$/g, '</s>');
+        // Fix HR pattern that might not have been caught
+        content = content.replaceAll('\\brdrt\\brdrnone\\brdrl\\brdrnone\\brdrb\\brdrdb \\par', '<hr>');
 
-        // Clean up multiple consecutive spaces but preserve single spaces
-        content = content.replaceAll(/\s{2,}/g, ' ').trim();
+        // If content doesn't start with <p> or <hr>, wrap it in <p>
+        if (content && !content.startsWith('<p>') && !content.startsWith('<hr>')) {
+            content = '<p>' + content;
+        }
 
-        // Fix spacing around punctuation - remove space before punctuation
-        content = content.replaceAll(/\s+([,;.])/g, '$1');
+        // If content doesn't end with </p> or <hr>, close the paragraph
+        if (content && !content.endsWith('</p>') && !content.endsWith('<hr>')) {
+            content = content + '</p>';
+        }
 
         console.log('Final HTML:', content);
         return content;
@@ -86,6 +85,10 @@ class BasicRTFtoHTMLConverter {
 
     ReplaceTags(rawHTML) {
 
+
+        rawHTML = rawHTML.replaceAll('}', '\\}');
+        rawHTML = rawHTML.replaceAll('{', '\\{');
+        rawHTML = rawHTML.replaceAll('\\', '\\\\');
         // hr needs a line insert
         rawHTML = rawHTML.replaceAll('<hr>', '{\\par \\brdrt\\brdrnone\\brdrl\\brdrnone\\brdrb\\brdrdb \\par}');
         rawHTML = rawHTML.replaceAll('&nbsp;', ' ');
@@ -103,5 +106,4 @@ class BasicRTFtoHTMLConverter {
 
         return rawHTML;
     }
-
 }
