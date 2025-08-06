@@ -130,7 +130,6 @@ button:hover {
     display: none;
     position: absolute;
     top: 175px;
-    left: 20%;
     box-shadow: 10px 10px 30px black;
     border-radius: 8px;
     padding: 10px;

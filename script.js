@@ -275,6 +275,11 @@ function SaveToHTML(filename)
    `<style type="text/css">
 		@page { size: 5.5in 8.5in; margin: 0.79in }
 		p { line-height: 115%; margin-bottom: 0.1in; background: transparent }
+      .MedulaOne{    font-family: 'Medula One';}
+      .BonaNova{    font-family: 'Bona Nova';}
+      .CutiveMono{    font-family: 'Cutive Mono';}
+      .Lexend{    font-family: 'Lexend';}
+      .TimesNewRoman{    font-family: 'Times New Roman', Times, serif;}
 	</style>`;
 
    var data = '<html><head>' + style + '</head><body>';
